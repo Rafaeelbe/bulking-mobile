@@ -1,41 +1,165 @@
-This is an Expo/React Native mobile application. Prioritize mobile-first patterns, performance, and cross-platform compatibility.
+# AGENTS.md — BULKING
 
-## Expo has changed — do not trust your training data
+## 1. Projeto
 
-Expo ships breaking changes every SDK release. APIs you remember are likely renamed, moved, or removed. Before writing any code that touches an Expo, EAS, or React Native API:
+Bulking é um aplicativo de registro alimentar e acompanhamento nutricional.
+Objetivo: registrar alimentos, refeições, quantidades, calorias e macronutrientes.
 
-1. Read the major version of the `expo` package in `package.json`.
-2. Fetch the matching versioned docs: `https://docs.expo.dev/versions/v<major>.0.0/`
-3. For anything else, fetch https://docs.expo.dev/llms.txt — an index of all Expo docs with corrections to common LLM misconceptions. Follow its links to the specific page you need; never answer from memory.
+## 2. Tecnologias
 
-## Commands
+**Mobile:** React Native, Expo SDK 58, Expo Router, TypeScript.
+**Backend:** Java 25, Spring Boot 4.1.2, Maven, PostgreSQL 17 e Docker.
 
-Use `bunx` instead of `npx` if the project uses bun (`bun.lock` present).
+## 3. Arquitetura
 
-```bash
-npx expo install <package>  # ALWAYS use instead of npm/yarn/pnpm/bun add — resolves SDK-compatible versions
-npx expo start              # start the dev server
-npx expo lint               # lint
-npx tsc --noEmit            # typecheck
-npx expo-doctor             # diagnose dependency and config issues
-npx expo install --fix      # fix incompatible package versions
-```
+### Frontend
 
-Run lint and typecheck before declaring any task done.
+- `src/app/`: telas e rotas.
+- `src/components/`: componentes reutilizáveis.
+- `src/constants/`: constantes.
+- `src/hooks/`: hooks.
+- `src/services/`: comunicação com API, se existente.
 
-## Navigation & Routing
+### Backend
 
-- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code (components, hooks, utils) outside `src/app/`.
-- Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
-- Docs: https://docs.expo.dev/router/introduction.md
+Arquitetura em camadas:
 
-## Building with EAS
+- Controller
+- Service
+- Repository
+- Entity
+- DTO
+- Enum
 
-Use EAS to build, sign, and submit the app in the cloud (`eas build`, `eas submit`) and to ship over-the-air updates (`eas update`) — no local Xcode or Android Studio required. Run EAS CLI as `bunx eas-cli <command>` in Bun projects, or `npx eas-cli@latest <command>` otherwise; substitute that for bare `eas` in docs examples.
-Docs: https://docs.expo.dev/eas/index.md
+Respeitar a estrutura existente. Não criar abstrações ou duplicações desnecessárias.
 
-## Rules
+## 4. Navegação
 
-- If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
-- Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
-- Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+Quatro abas principais:
+
+- Início
+- Diário
+- Alimentos
+- Perfil
+
+Decisões estabelecidas:
+
+- Abas dentro de `src/app/(tabs)/`.
+- `add-food` fora das abas, no Stack.
+- Botão central `+` utiliza `router.push("/add-food")`.
+- Tela `add-food` possui cabeçalho personalizado.
+- Voltar utiliza `router.back()`.
+- Cabeçalho nativo oculto em `add-food`.
+- Preservar `AnimatedSplashOverlay`.
+
+Não alterar a estrutura de navegação sem necessidade.
+
+## 5. Identidade visual
+
+Manter a interface minimalista, clara e consistente.
+
+| Elemento         | Cor       |
+| ---------------- | --------- |
+| Fundo            | `#F8FAFC` |
+| Cards            | `#FFFFFF` |
+| Primária         | `#F97316` |
+| Texto principal  | `#1E293B` |
+| Texto secundário | `#64748B` |
+| Proteínas        | `#F97316` |
+| Carboidratos     | `#3B82F6` |
+| Gorduras         | `#16A34A` |
+
+- Utilizar tipografia Inter, quando configurada.
+- Priorizar cards arredondados e espaçamentos consistentes.
+- Considerar Safe Area e diferentes tamanhos de tela.
+- Preservar telas e componentes visuais já aprovados.
+
+## 6. Funcionalidades existentes
+
+O dashboard possui:
+
+- Saudação e data dinâmicas.
+- Resumo de calorias e macronutrientes.
+- Cards de refeições.
+- Expansão das refeições para visualizar alimentos.
+
+O backend possui o endpoint:
+
+`GET /meals/daily-summary?userId=1&date=YYYY-MM-DD`
+
+O retorno inclui refeições, alimentos e informações nutricionais.
+
+Os cálculos nutricionais são responsabilidade do backend. Não duplicar regras de negócio no frontend.
+
+## 7. API e ambiente
+
+O aplicativo acessa o backend pela rede local.
+
+- Dispositivo físico: utilizar o IP LAN do computador.
+- Emulador Android: considerar `10.0.2.2`.
+- `localhost` no celular não representa o computador.
+- Não assumir que o IP LAN é permanente.
+- Preservar a configuração existente da API.
+- Centralizar requisições no serviço HTTP existente.
+- Tratar erros de rede, HTTP e respostas inválidas.
+
+Não modificar configurações de ambiente sem necessidade.
+
+## 8. Regras de implementação
+
+- Inspecionar arquivos relevantes antes de modificá-los.
+- Identificar a causa raiz antes de corrigir problemas.
+- Fazer alterações pequenas e localizadas.
+- Preservar funcionalidades e contratos existentes.
+- Evitar dependências novas sem justificativa.
+- Não refatorar arquivos fora do escopo.
+- Não inventar endpoints, propriedades ou configurações.
+- Não substituir implementações funcionais sem necessidade.
+
+## 9. Economia de comandos e tokens
+
+Não executar comandos de diagnóstico por hábito.
+
+Evitar, sem necessidade concreta:
+
+- `ls -la`, `dir`
+- `docker ps`, `docker images`
+- `git status`, `git log`, `git diff`
+- `npm list`
+- `npm install`
+- `mvn clean`
+- Varreduras completas do projeto.
+
+Preferir:
+
+- Abrir diretamente os arquivos relevantes.
+- Pesquisar símbolos e referências específicas.
+- Consultar apenas trechos necessários.
+- Executar validações direcionadas.
+- Reutilizar informações já conhecidas e ainda válidas.
+
+Não repetir verificações, instalar dependências ou reiniciar serviços sem justificativa.
+
+## 10. Fluxo e entrega
+
+Para cada tarefa:
+
+1. Compreender o objetivo.
+2. Inspecionar somente o necessário.
+3. Identificar impactos.
+4. Implementar.
+5. Executar validações proporcionais.
+6. Apresentar o resultado.
+
+Comunicação direta e econômica. Fazer perguntas somente quando faltar informação essencial.
+
+Ao finalizar, informar:
+
+- Implementação realizada.
+- Arquivos modificados.
+- Validações executadas.
+- Pendências relevantes.
+
+Nunca afirmar que testes foram executados sem realmente executá-los.
+
+**Princípio central:** resolver corretamente cada tarefa com o mínimo de alterações, comandos e consumo de contexto, preservando a arquitetura e a experiência visual do Bulking.
