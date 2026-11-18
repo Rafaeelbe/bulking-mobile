@@ -1,56 +1,72 @@
-# Welcome to your Expo app 👋
+# Bulking Mobile
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicativo mobile para acompanhamento da alimentação diária, permitindo registrar refeições, adicionar alimentos e acompanhar informações nutricionais.
 
-## Get started
+## Tecnologias
 
-1. Install dependencies
+- React Native
+- Expo
+- Expo Router
+- TypeScript
+
+## Funcionalidades
+
+- Dashboard com resumo nutricional diário
+- Visualização das refeições do dia
+- Busca e seleção de alimentos
+- Adição de alimentos às refeições
+- Edição e remoção de alimentos registrados
+- Integração com a API do Bulking
+
+## Pré-requisitos
+
+- Node.js
+- npm
+- Expo Go ou emulador Android/iOS
+- Backend do Bulking em execução
+
+## Como executar
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/SEU_USUARIO/bulking-mobile.git
+   ```
+
+2. Acesse a pasta:
+
+   ```bash
+   cd bulking-mobile
+   ```
+
+3. Instale as dependências:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+4. Configure a URL da API no arquivo `.env`:
+
+   ```env
+   EXPO_PUBLIC_API_URL=http://SEU_IP_LOCAL:8080
+   ```
+
+   Substitua `SEU_IP_LOCAL` pelo endereço IP do computador onde o backend está executando.
+
+5. Inicie o aplicativo:
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Documentação visual
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+As imagens do fluxo de adição de alimentos estão disponíveis na pasta `docs/`.
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Projeto relacionado
 
-## Get a fresh project
+O aplicativo utiliza o backend Bulking API para consultar e gerenciar os dados nutricionais e as refeições.
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Desenvolvido como projeto de estudo.
